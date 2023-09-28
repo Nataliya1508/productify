@@ -5,7 +5,7 @@ import { Role } from '../enums/enums';
 @Entity({ name: 'users' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   firstName: string;
@@ -24,6 +24,7 @@ export class UserEntity {
 
   @BeforeInsert()
   async hashPassword() {
+    console.log(this.password);
     this.password = await hash(this.password, 10);
   }
 }
