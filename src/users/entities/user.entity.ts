@@ -1,4 +1,5 @@
 import { hash } from 'bcrypt';
+import { OrderEntity } from 'src/orders/entities/order.entity';
 import { ProductEntity } from 'src/products/entities/product.entity';
 import {
   BeforeInsert,
@@ -31,6 +32,9 @@ export class UserEntity {
 
   @OneToMany(() => ProductEntity, (product) => product.user)
   products: ProductEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.user)
+  orders: ProductEntity[];
 
   @BeforeInsert()
   async hashPassword() {

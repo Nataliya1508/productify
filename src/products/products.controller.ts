@@ -26,7 +26,7 @@ export class ProductsController {
     return { total: products.length, data: products };
   }
   @Get('/:id')
-  async getUserById(@Param('id') id: string) {
+  async getProductById(@Param('id') id: string) {
     const user = await this.productsService.findById(id);
     return user;
   }
