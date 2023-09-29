@@ -1,11 +1,4 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
@@ -25,31 +18,43 @@ export class ProductsService {
   ) {}
   async createProduct(
     createProductDto: CreateProductDto,
-    // user: UserEntity,
   ): Promise<ProductEntity> {
-    const { name, price, userId, password } = createProductDto;
+    const { name, price, userId } = createProductDto;
 
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      select: [
+        'id',
+        'firstName',
+        'email',
+        'lastName',
+        'password',
+        'role',
+        'products']
+      }
+    );
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const hashedPasswordFromDatabase =
-      await this.usersService.getUserPasswordById(userId);
-    console.log('pass1', hashedPasswordFromDatabase);
-
     // const isPasswordCorrect = await compare(
-    //   password,
-    //   hashedPasswordFromDatabase,
+    //   createProductDto.password,
+    //   user.password,
     // );
 
     // if (!isPasswordCorrect) {
-    //   throw new BadRequestException('Invalid password provided');
+    //   throw new HttpException(
+    //     'Invalid password provided',
+    //     HttpStatus.BAD_REQUEST,
+    //   );
     // }
 
     if (user.role !== 'vendor') {
-      throw new ForbiddenException('Only vendors can create products');
+      throw new HttpException(
+        'Only vendors can create products',
+        HttpStatus.CONFLICT,
+      );
     }
 
     const newProduct = new ProductEntity();
@@ -74,7 +79,7 @@ export class ProductsService {
     });
 
     if (!product) {
-      throw new NotFoundException('User not found');
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
     }
 
     return product;

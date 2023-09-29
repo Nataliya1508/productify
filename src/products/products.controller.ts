@@ -13,7 +13,6 @@ export class ProductsController {
   async createProduct(
     @Body() createProductDto: CreateProductDto,
   ): Promise<ProductEntity> {
-    // console.log('dto', createProductDto);
     const product = await this.productsService.createProduct(createProductDto);
 
     return product;

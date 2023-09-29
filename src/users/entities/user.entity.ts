@@ -34,7 +34,6 @@ export class UserEntity {
 
   @BeforeInsert()
   async hashPassword() {
-    console.log(this.password);
     this.password = await hash(this.password, 10);
   }
 }
