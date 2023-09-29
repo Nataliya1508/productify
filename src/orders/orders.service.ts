@@ -25,19 +25,27 @@ export class OrdersService {
   ) {}
 
   async createOrder(createOrderDto: CreateOrderDto): Promise<OrderEntity> {
-    const { productId, userId, password, quantity } = createOrderDto;
+    const { productId, userId, quantity } = createOrderDto;
+    const user = await this.orderRepository.findOne({
+      where: { id: userId },
+      select: ['id', 'product', 'quantity', 'user'],
+      }
+    );
 
-        // const isPasswordCorrect = await this.usersService.checkUserPassword(
-        //   userId,
-        //   password,
-        // );
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    // const isPasswordCorrect = await compare(
+    //   createOrderDto.password,
+    //   user.password,
+    // );
 
-        // if (!isPasswordCorrect) {
-        //   throw new HttpException(
-        //     'Invalid password provided',
-        //     HttpStatus.BAD_REQUEST,
-        //   );
-        // }
+    // if (!isPasswordCorrect) {
+    //   throw new HttpException(
+    //     'Invalid password provided',
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    // } // }
 
     const product = await this.productsService.findById(productId);
     if (!product) {
