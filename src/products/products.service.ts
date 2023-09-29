@@ -71,6 +71,7 @@ export class ProductsService {
   async findById(productId: string): Promise<ProductEntity> {
     const product = await this.productRepository.findOne({
       where: { id: productId },
+      relations: ['user'],
     });
 
     if (!product) {

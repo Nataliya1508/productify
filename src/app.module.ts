@@ -6,6 +6,9 @@ import { OrdersModule } from './orders/orders.module';
 import { ProductsModule } from './products/products.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { UserEntity } from './users/entities/user.entity';
+import { ProductEntity } from './products/entities/product.entity';
+import { OrderEntity } from './orders/entities/order.entity';
 
 @Module({
   imports: [
@@ -33,7 +36,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([OrderEntity, ProductEntity, UserEntity]),
     UsersModule,
     OrdersModule,
     ProductsModule,
