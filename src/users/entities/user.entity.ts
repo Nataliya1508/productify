@@ -1,5 +1,12 @@
 import { hash } from 'bcrypt';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductEntity } from 'src/products/entities/product.entity';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Role } from '../enums/enums';
 
 @Entity({ name: 'users' })
@@ -21,6 +28,9 @@ export class UserEntity {
 
   @Column({ type: 'enum', enum: Role, default: Role.Customer })
   role: Role;
+
+  @OneToMany(() => ProductEntity, (product) => product.user)
+  products: ProductEntity[];
 
   @BeforeInsert()
   async hashPassword() {
