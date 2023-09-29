@@ -1,8 +1,5 @@
 import {
-  BadRequestException,
   ForbiddenException,
-  HttpException,
-  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -37,7 +34,6 @@ export class ProductsService {
 
     const hashedPasswordFromDatabase =
       await this.usersService.getUserPasswordById(userId);
-    console.log('pass1', hashedPasswordFromDatabase);
 
     // const isPasswordCorrect = await compare(
     //   password,
