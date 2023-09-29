@@ -1,6 +1,12 @@
 import { hash } from 'bcrypt';
 import { ProductEntity } from 'src/products/entities/product.entity';
-import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Role } from '../enums/enums';
 
 @Entity({ name: 'users' })

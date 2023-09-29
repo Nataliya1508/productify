@@ -45,4 +45,14 @@ export class UsersService {
 
     return user;
   }
+
+  async getUserPasswordById(userId: string): Promise<string | null> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      return null;
+    }
+
+    return user.password;
+  }
 }

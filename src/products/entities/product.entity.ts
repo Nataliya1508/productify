@@ -10,7 +10,7 @@ export class ProductEntity {
   name: string;
 
   @Column()
-  price: string;
+  price: number;
 
   @ManyToOne(() => UserEntity, (user) => user.products)
   user: UserEntity;
